@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+
+  nginx:
+    container_name: gitness-nginx
+    image: nginx
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - gitness
+    networks:
+      - gitness-network
+
+  gitness:
+    image: harness/gitness
+    container_name: gitness
+    restart: unless-stopped
+    environment:
+      - GITNESS_PRINCIPAL_ADMIN_PASSWORD=${ADMIN_PASS}
+      - GITNESS_ENCRYPTER_SECRET=${ENCRYPT_SECRET}
+      - GITNESS_USER_SIGNUP_ENABLED=false
+      - GITNESS_HTTP_PORT=3800
+      - GITNESS_URL_API=${HTTP_PROTO}://${HOST}/api
+      - GITNESS_URL_BASE=${HTTP_PROTO}://${HOST}
+      - GITNESS_URL_GIT=${HTTP_PROTO}://${HOST}/git
+      - GITNESS_URL_UI=${HTTP_PROTO}://${HOST}
+      - GITNESS_URL_CONTAINER=${HTTP_PROTO}://${HOST}
+      - GITNESS_HTTP_PROTO=${HTTP_PROTO}
+    ports:
+      - "127.0.0.1:3800:3800"
+    volumes:
+      - gitness-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gitness-network
+  
+volumes:
+  gitness-data:
+    driver: local
+
+networks:
+  gitness-network:
