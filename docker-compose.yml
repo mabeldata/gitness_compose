@@ -29,7 +29,7 @@ services:
       - GITNESS_URL_BASE=${HTTP_PROTO}://${HOST}
       - GITNESS_URL_GIT=${HTTP_PROTO}://${HOST}/git
       - GITNESS_URL_UI=${HTTP_PROTO}://${HOST}
-      - GITNESS_URL_CONTAINER=${HTTP_PROTO}://${HOST}
+      - GITNESS_URL_CONTAINER=${HTTP_PROTO}://host.docker.internal:3800
       - GITNESS_HTTP_PROTO=${HTTP_PROTO}
     ports:
       - "127.0.0.1:3800:3800"
