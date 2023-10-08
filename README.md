@@ -5,6 +5,9 @@ Unofficial gitness docker compose
 
 The official project -> [GITNESS](https://github.com/harness/gitness)
 
+Overview
+Gitness is an open source development platform packed with the power of code hosting and automated continuous integration pipelines.
+
 ### Requirements
 - Docker, Docker-Compose
 
